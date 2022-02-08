@@ -10,7 +10,7 @@ const Dashboard = () => {
 
   async function getDashboardData(token) {
     try {
-      const { data } = await axios.get("/api/dashboard", {
+      const { data } = await axios.get("/api/data", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

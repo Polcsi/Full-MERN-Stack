@@ -11,7 +11,7 @@ const connectDB = require("./db/connect");
 //routers
 const register = require("./routes/register");
 const login = require("./routes/login");
-const dashboard = require("./routes/dashboard");
+const getData = require("./routes/data");
 
 //error handler
 const notFoundMiddleware = require("./middleware/not-found");
@@ -21,16 +21,19 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 app.use(express.json());
 const authenticateUser = require("./middleware/authentication");
 
+//routes
+app.use("/api/register", register);
+app.use("/api/login", login);
+app.use("/api/data", authenticateUser, getData);
+
 app.use(express.static(path.join(__dirname, "client", "build")));
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
-
-//routes
-app.use("/api/register", register);
-app.use("/api/login", login);
-app.use("/api/dashboard", authenticateUser, dashboard);
-
+/* app.use(express.static(path.resolve(__dirname, "client", "build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+}); */
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
